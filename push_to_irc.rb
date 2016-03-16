@@ -29,8 +29,9 @@ bot = Cinch::Bot.new do
 
   on :connect do |m|
     to, subject, _body = ARGV
+    to_channel = to.start_with?('#') ? [to] : []
     default_channels = m.bot.config.channels || []
-    ([to] + default_channels).each do |channel|
+    (to_channel + default_channels).each do |channel|
       m.bot.join(channel)
       if subject
         Channel(channel)

@@ -39,6 +39,6 @@ bot = Cinch::Bot.new do
     end
     bot.quit
   end
-endb
+end
 
 bot.start

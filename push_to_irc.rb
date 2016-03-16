@@ -24,17 +24,20 @@ require 'cinch'
 bot = Cinch::Bot.new do
   configure do |c|
     c.server = 'irc.freenode.org'
-    c.channels = %w(#pangea-monitoring)
     c.nick = 'pangea-monitor'
   end
 
   on :connect do |m|
-    _to, subject, _body = ARGV
-    m.bot.config.channels.each do |channel|
+    to, subject, _body = ARGV
+    default_channels = m.bot.config.channels || []
+    ([to] + default_channels).each do |channel|
+      m.bot.join(channel)
       if subject
-        Channel(channel).send(subject)
+        Channel(channel)
+          .send(subject)
       else
-        Channel(channel).send("Received no subject in ARGV: #{ARGV.inspect}")
+        Channel(channel)
+          .send("Received no subject in ARGV: #{ARGV.inspect}")
       end
     end
     bot.quit

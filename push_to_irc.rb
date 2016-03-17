@@ -32,7 +32,6 @@ bot = Cinch::Bot.new do
     to_channel = to.start_with?('#') ? [to] : []
     default_channels = m.bot.config.channels || []
     (to_channel + default_channels).each do |channel|
-      m.bot.join(channel)
       if subject
         Channel(channel)
           .send(subject)
